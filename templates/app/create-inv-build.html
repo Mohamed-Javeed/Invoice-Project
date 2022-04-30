@@ -1,0 +1,250 @@
+{% extends 'app/dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+
+
+
+{% block main %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2 ps-1">Create Invoice</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary">Print</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+      </div>
+
+      <div class="btn-group me-2">
+        <button href="#addInvoiceModal" type="button" class="btn btn-primary" data-bs-toggle="modal">New   Invoice</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h5 class="card-header">Rainbow Tailors Invoice Generator</h5>
+    <div class="card-body">
+      <div class="container-fluid mt-2 mb-4" style="display: flex; margin: 0; padding: 0">
+        <div class="container p-0" > 
+          <h5 class="h5" >Title : {{title}}</h5>
+
+          <h5 class="h5" style="display: inline;">Client :
+        {% if client %}
+        <span class="badge bg-success text-light">{{client.clientName}}</span></h5>
+        {% else %}
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-floating">
+            {{client_form.client}}
+          </div>
+
+          <button type="submit" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Save</button>
+        </form>
+        {% endif %}  
+        <hr>  
+        </div>   
+      </div>
+
+  {% if products|length > 0 %}
+  <div class="table-responsive">
+    <table class="table table-striped table-sm table-bordered border-secondary">
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price per Qty</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% for p in products %}
+        <tr>
+          <td>{{p.title}}</td>
+          <td>{{p.quantity}}</td>
+          <td>{{p.price}}</td>
+          <td >{{p.quantity|mul:p.price}}</td>
+      </tr>
+        {% endfor %}
+        
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="row">
+    <div class="col-lg-2">
+
+    </div>
+    <div class="col-lg-8">
+      <h3>Add Products here!</h3>
+    </div>
+    <div class="col-lg-3">
+
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="btn-group me-2 mt-2 mb-2 centre " >
+    <button href="#addProductModal" type="button" class="btn btn-primary" data-bs-toggle="modal">Add Product</button>
+  </div>
+
+  <hr>
+
+  <div class="container-fluid mt-4 p-0">
+    <h5 class="h5">Change Client here</h5>
+
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-floating">
+        {{client_form|crispy}}
+      </div>
+      
+      <button type="submit" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Save</button>
+    </form>
+  </div>
+
+</div>
+</div>
+
+
+<a href="{% url 'createpdf' slug %}" class="btn btn-lg btn-success">View as PDF</a>
+
+<a href="{% url 'emailpdf' slug %}" class="btn btn-lg btn-info">Send Email</a>
+  <!-- <h3 id ="Tofill"><h3> -->
+
+
+
+  <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+
+  <div class="modal modal-sheet py-5" tabindex="-1" id="addProductModal">
+    <div class="modal-dialog">
+    <div class="modal-content rounded-6 shadow">
+
+      <form class="" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body py-0">
+
+          
+          <!-- {{form.as_p}} -->
+          <div class="form-floating">
+            {{prod_form.title}}
+            <label for="floatingInput">Product</label>
+          </div>
+
+          <div class="form-floating">
+            {{prod_form.quantity}}
+            <label for="floatingInput">Quantity</label>
+          </div>
+
+          <div class="form-floating">
+            {{prod_form.price}}
+            <label for="floatingInput">Price per Qty</label>
+          </div>
+          
+          
+      </div>
+      <div class="modal-footer flex-column border-top-0">
+        <button type="submit" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Save</button>
+        <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+      </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal modal-sheet py-5" tabindex="-1" id="addInvoiceModal">
+  <div class="modal-dialog">
+  <div class="modal-content rounded-6 shadow">
+
+    <form class="" action="{% url 'create-inv' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body py-0">
+
+        <div class="form-floating">
+          {{inv_form.title}}
+          <label for="floatingInput">Invoice Title</label>
+        </div>
+        <div class="form-floating">
+          {{client_form.client}}
+          <label for="floatingInput">Invoice Client</label>
+        </div>
+        <button href="#addClientModal" type="button" class="btn btn-primary" data-bs-toggle="modal">New Client</button>
+        
+        
+    </div>
+    <div class="modal-footer flex-column border-top-0">
+      <button type="submit" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Save</button>
+      <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+    </div>
+
+    </form>
+  </div>
+</div>
+</div>
+
+<div class="modal modal-sheet py-5" tabindex="-1" id="addClientModal">
+  <div class="modal-dialog">
+  <div class="modal-content rounded-6 shadow">
+
+    <form class="" action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body py-0">
+
+        
+        <!-- {{form.as_p}} -->
+        <div class="form-floating">
+          {{cform.clientName}}
+          <label for="floatingInput">Client Name</label>
+        </div>
+
+        <div class="form-floating">
+          {{cform.phoneNumber}}
+          <label for="floatingInput">Phone Number</label>
+        </div>
+
+        <div class="form-floating">
+          {{cform.emailAddress}}
+          <label for="floatingInput">Email Address</label>
+        </div>
+        
+        
+    </div>
+    <div class="modal-footer flex-column border-top-0">
+      <button type="submit" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Save</button>
+      <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+    </div>
+
+    </form>
+  </div>
+</div>
+</div>
+
+
+
+  </div>
+</main>
+{% endblock %}
+
