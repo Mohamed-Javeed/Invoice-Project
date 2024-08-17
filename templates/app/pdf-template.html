@@ -145,12 +145,12 @@
             <div class="header">
                 <div class="head-cont">
 
-                    <h1 class="h1">RAINBOW TAILORS</h1>
+                    <h1 class="h1">--<COMPANY NAME>--</h1>
                     <hr>
-                    <p class="header-p ">Specialist in Catering | Restaurant | Hospital | Industries | School Uniform </p>
+                    <p class="header-p ">--<COMPANY INFO>--</p>
                     <hr>
-                    <p class=" add-p">No.66/159 Nelson Manickam Road, Choolaimedu, Chennai - 600094.</p>
-                    <p class="add-p">Mobile : 9500017696 Email : rainbowuniforms1@gmail.com</p>
+                    <p class=" add-p">--<COMPANY ADDRESS>--</p>
+                    <p class="add-p">--<COMPANY CONTACT INFO>--</p>
                     <br>
                 </div>
             </div>
@@ -159,16 +159,16 @@
                     <p class="addr-p fleft" align="left" style="padding-left: 2%;">
                         To
                         <br>
-                        {{invoice.client.clientName}}
+                        --<CLIENT NAME>--
                         <br>
-                        {{invoice.client.emailAddress}}
+                        --<CLIENT EMAIL>--
                         <br>
-                {{invoice.client.phoneNumber}}
+                	--<CLIENT PHONE>--
                     </p>
 
-                    <p align="top" class="addr-p fright" style="padding-right:2%; height: 79%;">No : {{invoice.id}}
+                    <p align="top" class="addr-p fright" style="padding-right:2%; height: 79%;">No : --<INV ID>--
                         <br>
-                        Date : {{invoice.dateCreated|date}}
+                        Date : --<INV DATE>--
                     </p>
                 </div>
                 <!-- <div class="inv-det">
@@ -203,18 +203,18 @@
             <tbody>
                 {% for product in products %}
                 <tr>
-                    <td><p>{{ forloop.counter }}</p></td>
-                    <td><p>{{product.title}}</td>
-                    <td><p>{{product.quantity}}</p></td>
-                    <td><p>{{product.price}}</p></td>
-                    <td><p>{{product.quantity|mul:product.price}}</p></td>
+                    <td><p>--<NO>--</p></td>
+                    <td><p>--<PRODUCT>--</td>
+                    <td><p>--<QTY>--</p></td>
+                    <td><p>--<PRICE>--</p></td>
+                    <td><p>--<AMT>--</p></td>
                 </tr>
                 {% endfor %}
                 <tr>
                     <td></td>
                     <td></td>
                     <td style="text-align: center;padding-bottom:1%;padding-top:1%" colspan="2">Total</td>
-                    <td style="text-align: center; padding-bottom:1%;padding-top:1%" >100000</td>
+                    <td style="text-align: center; padding-bottom:1%;padding-top:1%" >--<TOTAL>--</td>
 			<br>
                 </tr>
 		<br>
