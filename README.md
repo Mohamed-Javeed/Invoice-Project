@@ -87,7 +87,3 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 ## Contact
 
 For any queries or issues, please reach out via [GitHub Issues](https://github.com/Mohamed-Javeed/Invoice-Project/issues).
-
----
-
-You can customize this further based on specific details or additional features of your app!
